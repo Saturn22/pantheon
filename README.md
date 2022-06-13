@@ -95,3 +95,63 @@ $ src/analysis/analyze.py --data-dir='/home/pokorie/Documents/repos/mimic/log/pa
 $ src/analysis/analyze.py --data-dir='/home/pokorie/Documents/repos/mimic/log/pantheon/vz.lte.driving'
 $ src/analysis/analyze.py --data-dir='/home/pokorie/Documents/repos/mimic/log/pantheon/vz.lte.short'
 ```
+
+
+
+
+### Install MPTCP
+
+wget https://github.com/multipath-tcp/mptcp/releases/download/v0.95.2/linux-headers-4.19.234.mptcp_20220311125841-1_amd64.deb
+wget https://github.com/multipath-tcp/mptcp/releases/download/v0.95.2/linux-image-4.19.234.mptcp_20220311125841-1_amd64.deb
+wget https://github.com/multipath-tcp/mptcp/releases/download/v0.95.2/linux-libc-dev_20220311125841-1_amd64.deb
+wget https://github.com/multipath-tcp/mptcp/releases/download/v0.95.2/linux-mptcp_v0.95.2_20220311125841-1_all.deb
+
+sudo dpkg -i linux*.deb
+sudo apt-get install -f
+
+nano /etc/default/grub
+GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 4.19.234-mptcp"
+#GRUB_TIMEOUT_STYLE=menu 
+#GRUB_TIMEOUT=10
+
+
+sudo update-grub
+sudo reboot
+Hold Esc key down.
+
+uname -r -> to check kernel.
+
+
+IP Table:
+
+sudo ip rule add from 10.0.2.15 table 1
+sudo ip rule add from 10.0.3.15 table 2
+
+sudo ip route add 10.0.2.0/24 dev enp0s3 scope link table 1
+sudo ip route add default via 10.0.2.2 dev enp0s3 table 1
+
+sudo ip route add 10.0.3.0/24 dev enp0s8 scope link table 2
+sudo ip route add default via 10.0.3.2  dev enp0s8 table 2
+
+sudo ip route add default scope global nexthop via 10.0.2.2 dev enp0s3
+
+
+
+
+To test:
+
+curl multipath-tcp.org 
+
+
+or visit: http://amiusingmptcp.de/ 
+
+
+systctl net.mptcp.mptcp_enabled
+
+
+
+
+
+
+
+
