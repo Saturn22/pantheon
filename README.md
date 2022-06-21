@@ -12,7 +12,7 @@ This repo was forked from [Pantheon of Congestion Control](https://github.com/St
 Follow the guidelines from the original repo
 
 ```
-git clone https://github.com/Principe92/pantheon.git
+git clone https://github.com/Saturn22/pantheon.git
 ```
 
 Add submodules after cloning by running:
